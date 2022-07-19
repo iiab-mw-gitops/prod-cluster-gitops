@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: /
+    path: .
     repoURL: https://github.com/iiab-mw-gitops/prod-cluster-gitops.git
     targetRevision: master
   syncPolicy:
