@@ -61,7 +61,11 @@ spec:
     metadata:
       name: '{{cluster}}-applications'
     spec:
-      project: applications  
+      project: applications
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
       source:
         path: 3-apps
       destination:
