@@ -12,7 +12,7 @@ patches:
       path: /spec/template/spec/source/repoURL
       value: https://github.com/iiab-mw-gitops/prod-cluster-gitops.git
     - op: add
-      path: /spec/source/targetRevision
+      path: /spec/template/spec/source/targetRevision
       value: master
 - target:
     group: argoproj.io
