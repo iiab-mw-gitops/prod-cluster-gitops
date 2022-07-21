@@ -9,21 +9,21 @@ spec:
   sourceRepos: []  # Populated by kustomize patches in 3-apps/kustomization.yaml
   destinations:
   - namespace: ci
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: dev
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: staging
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: prod
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: tools
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: ibm-common-services
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: cloudpak
-    server: https://kubernetes.default.svc
+    server: '*'
   - namespace: openshift-gitops
-    server: https://kubernetes.default.svc
+    server: '*'
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now pipeline sa for buildah
   - group: "security.openshift.io"
@@ -61,7 +61,7 @@ spec:
     metadata:
       name: '{{cluster}}-applications'
     spec:
-      project: default  
+      project: applications  
       source:
         path: 3-apps
       destination:
