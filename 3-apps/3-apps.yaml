@@ -9,21 +9,21 @@ spec:
   sourceRepos: []  # Populated by kustomize patches in 3-apps/kustomization.yaml
   destinations:
   - namespace: ci
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: dev
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: staging
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: prod
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: tools
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: ibm-common-services
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: cloudpak
-    server: '*'
+    server: https://kubernetes.default.svc
   - namespace: openshift-gitops
-    server: '*'
+    server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   # TODO: SCC needs to be moved to 1-infra, here for now pipeline sa for buildah
   - group: "security.openshift.io"
@@ -42,32 +42,21 @@ spec:
     - argocd-admins
 ---
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  name: applications-set
+  name: applications
   annotations:
     argocd.argoproj.io/sync-wave: "300"
   labels:
     gitops.tier.layer: gitops
 spec:
-  generators:
-  - list:
-      elements:
-      - cluster: prod-cluster
-        url: https://kubernetes.default.svc
-      - cluster: dr-cluster
-        url: https://c111-e.us-east.containers.cloud.ibm.com:31784
-  template:
-    metadata:
-      name: '{{cluster}}-applications'
-    spec:
-      project: applications
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-      source:
-        path: 3-apps
-      destination:
-        server: '{{url}}'
-        namespace: openshift-gitops
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: applications
+  source: # repoURL  and targetRevision populated by kustomize patches in 3-apps/kustomization.yaml
+    path: 3-apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,25 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  name: bootstrap-cluster-app-set
+  name: bootstrap-cluster
   namespace: openshift-gitops
 spec:
-  generators:
-  - list:
-      elements:
-      - cluster: prod-cluster
-        url: https://kubernetes.default.svc
-      - cluster: dr-cluster
-        url: https://c111-e.us-east.containers.cloud.ibm.com:31784
-  template:
-    metadata:
-      name: '{{cluster}}-bootstrap-cluster'
-    spec:
-      project: default  
-      source:
-        repoURL: https://github.com/iiab-mw-gitops/prod-cluster-gitops.git
-        targetRevision: master
-        path: .
-      destination:
-        server: '{{url}}'
-        namespace: openshift-gitops
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: .
+    repoURL: https://github.com/iiab-mw-gitops/prod-cluster-gitops.git
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

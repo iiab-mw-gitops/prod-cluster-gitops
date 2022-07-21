@@ -5,14 +5,14 @@ resources:
 patches:
 - target:
     group: argoproj.io
-    kind: ApplicationSet
+    kind: Application
     labelSelector: "gitops.tier.layer=gitops"
   patch: |-
     - op: add
-      path: /spec/template/spec/source/repoURL
+      path: /spec/source/repoURL
       value: https://github.com/iiab-mw-gitops/prod-cluster-gitops.git
     - op: add
-      path: /spec/template/spec/source/targetRevision
+      path: /spec/source/targetRevision
       value: master
 - target:
     group: argoproj.io
@@ -34,8 +34,8 @@ patches:
       value: https://github.com/iiab-mw-gitops/prod-cluster-gitops-apps.git
 - target:
     group: argoproj.io
-    kind: ApplicationSet
+    kind: Application
   patch: |-
     - op: replace
-      path:  /spec/template/spec/destination/namespace
+      path: /spec/destination/namespace
       value: openshift-gitops
